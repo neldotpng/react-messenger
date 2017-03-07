@@ -8,7 +8,9 @@ class Messages extends Component {
     const renderedMessages = messages.map(message => {
       return (
         <Message
+          key={message.id}
           message={message}
+          saveMessage={this.props.editMessage}
         />
       )
     })

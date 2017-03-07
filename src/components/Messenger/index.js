@@ -19,6 +19,7 @@ class Messenger extends Component {
     const currentDate = new Date()
     const newMessage = {
       user: 'superchill94',
+      id: Math.random() * 10000000,
       text: this.state.inputValue,
       date: `${currentDate.toISOString().substr(0,10)}`,
       timestamp: `${currentDate.toTimeString().substr(0,8)}`,
@@ -30,12 +31,23 @@ class Messenger extends Component {
     })
   }
 
+  editMessage = (updatedMessage) => {
+    console.log(updatedMessage)
+    const currentMessages = this.state.messages.slice()
+    const index = currentMessages.map(m => m.id).indexOf(updatedMessage.id)
+    currentMessages[index] = updatedMessage
+    this.setState({
+      messages: currentMessages,
+    })
+  }
+
   render() {
     return (
       <div>
         <h1>Really Cool Chat App</h1>
         <Messages 
           messages={this.state.messages}
+          editMessage={this.editMessage}
         />
         <ChatInput
           onChange={this.handleChange.bind(this)}
