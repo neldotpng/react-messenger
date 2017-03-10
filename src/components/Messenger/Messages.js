@@ -11,6 +11,8 @@ class Messages extends Component {
           key={message.id}
           message={message}
           saveMessage={this.props.editMessage}
+          lastUser={this.props.lastUser}
+          updateLastUser={this.props.updateLastUser}
         />
       )
     })

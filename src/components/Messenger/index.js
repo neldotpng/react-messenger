@@ -6,6 +6,7 @@ class Messenger extends Component {
   state = {
     messages: [],
     inputValue: '',
+    lastUser: '',
   }
 
   handleChange(val) {
@@ -16,13 +17,14 @@ class Messenger extends Component {
 
   handleSubmit() {
     if (!this.state.inputValue) return
-    const currentDate = new Date()
     const newMessage = {
-      user: 'superchill94',
+      user: {
+        username: 'Melsom Change',
+        avatar: 'https://avatars3.githubusercontent.com/u/11773089?v=3&s=460',
+      },
       id: Math.random() * 10000000,
       text: this.state.inputValue,
-      date: `${currentDate.toISOString().substr(0,10)}`,
-      timestamp: `${currentDate.toTimeString().substr(0,8)}`,
+      date: new Date(),
     }
     const messages = this.state.messages.concat(newMessage)
     this.setState({
@@ -32,7 +34,6 @@ class Messenger extends Component {
   }
 
   editMessage = (updatedMessage) => {
-    console.log(updatedMessage)
     const currentMessages = this.state.messages.slice()
     const index = currentMessages.map(m => m.id).indexOf(updatedMessage.id)
     currentMessages[index] = updatedMessage
@@ -41,11 +42,19 @@ class Messenger extends Component {
     })
   }
 
+  updateLastUser = (user) => {
+    this.setState({
+      lastUser: user,
+    })
+  }
+
   render() {
     return (
       <div>
-        <h1>Really Cool Chat App</h1>
-        <Messages 
+        <h1>Chat Messenger</h1>
+        <Messages
+          lastUser={this.state.lastUser}
+          updateLastUser={this.updateLastUser}
           messages={this.state.messages}
           editMessage={this.editMessage}
         />
