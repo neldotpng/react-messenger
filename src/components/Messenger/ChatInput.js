@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import '../css/ChatInput.css'
 
 class ChatInput extends Component {
-  state = {}
-
   handleChange = e => {
     e.preventDefault()
     var val = e.target.value

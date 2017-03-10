@@ -1,5 +1,53 @@
+.Message {
+  position: relative;
+  padding: 0 10px;
+}
+
+.Avatar {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  top: 0;
+  left: -35px;
+}
+
+.Avatar > img {
+  width: 100%;
+  border-radius: 20px;
+}
+
+.Message:hover {
+  background-color: #fafafa;
+}
+
+.Message-edit,
+.Message-save {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  border: 0;
+  background-color: #196c96;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 300;
+  padding: 5px 10px;
+  border-radius: 20px;
+  outline: 0;
+  transform: translateY(-50%);
+}
+
+.Message-save {
+  z-index: 10;
+  background-color: #2ab6fc;
+}
+
+.Message-input {
+  font-size: 16px;
+}
+
 .Message-user {
-  color: red;
+  color: #ef1057;
 }
 
 .Message-date {

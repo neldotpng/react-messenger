@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import User from './User'
 import '../css/Message.css'
 
 class Message extends Component {
@@ -9,11 +10,14 @@ class Message extends Component {
   }
 
   toggleEditButton = () => {
-    const currentTime = new Date().toTimeString().substr(0,8).split(':').reduce((a, b) => a + b)
-    const messageTime = this.props.message.timestamp.split(':').reduce((a, b) => a + b)
-    if ((currentTime - messageTime) > 5) {
+    const currentTime = new Date().getTime()
+    const messageTime = this.props.message.date.getTime()
+    const timeDiff = currentTime - messageTime
+
+    if (timeDiff > 60000) {
       return this.resetState()
     }
+
     this.setState({
       showEditButton: !this.state.showEditButton,
     })
@@ -22,6 +26,7 @@ class Message extends Component {
   editMessage = () => {
     this.setState({
       isEditing: true,
+      newMessage: this.props.message.text,
     })
   }
 
@@ -34,51 +39,83 @@ class Message extends Component {
       text: this.state.newMessage,
     }
     this.props.saveMessage(newMessage)
-    this.resetState()
   }
 
   updateNewMessage = (e) => {
+    e.preventDefault()
+    var val = e.target.value
     this.setState({
-      newMessage: e.target.value,
+      newMessage: val,
     })
   }
 
-  resetState = () => {
+  componentDidMount() {
+    this.props.updateLastUser(this.props.message.user.username)
     setTimeout(() => {
-      this.setState({
-        showEditButton: false,
-        isEditing: false,
-      })
-    }, 5000)
+      this.resetState()
+    }, 60000)
+  }
+
+  resetState = () => {
+    this.setState({
+      showEditButton: false,
+      isEditing: false,
+    })
+  }
+
+  checkLastUser = (user, lastUser) => {
+    if (user === lastUser) {
+      return true
+    }
+    else {
+      return false
+    }
   }
 
   render() {
-    const { message } = this.props
+    const { message, message:{ user } } = this.props
     return (
       <div
         onMouseEnter={this.toggleEditButton}
         onMouseLeave={this.toggleEditButton}
+        className="Message"
       >
-        <div className="Message-user">
-          {message.user} <span className="Message-date">{message.timestamp}</span>
-        </div>
 
-        {!this.state.isEditing && 
+        <User
+          lastUser={this.checkLastUser(user.username, this.props.lastUser)}
+          username={user.username}
+          avatar={user.avatar}
+          date={message.date}
+        />
+
+        { !this.state.isEditing && 
           <div className="Message-text">{message.text}</div>
         }
 
-        {this.state.isEditing && 
+        { this.state.isEditing && 
           <div>
-            <input type="text" placeholder={message.text} onChange={this.updateNewMessage} />
+            <input
+              type="text"
+              value={this.state.newMessage}
+              onChange={this.updateNewMessage}
+              className="Message-input"
+            />
             <button
               onClick={this.saveMessage}
+              className="Message-save"
             >
               Save
             </button>
           </div>
         }
-        {this.state.showEditButton && 
-          <button onClick={this.editMessage}>Edit</button>
+
+        { this.state.showEditButton && 
+          <button
+            onClick={this.editMessage}
+            className="Message-edit"
+          >
+            Edit
+          </button>
         }
       </div>
     )
