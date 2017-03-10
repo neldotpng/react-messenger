@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 
 class User extends Component {
   render() {
-    // const lastUser = this.props.lastUser
+    const show = this.props.show
     return (
       <div>
-
+        {show &&
           <div
             className="Message-user"
           >
@@ -19,7 +19,7 @@ class User extends Component {
               {this.props.username} <span className="Message-date">{this.props.date.toTimeString().substr(0,8)}</span>
             </div>
           </div>
-
+        }
       </div>
     )
   }

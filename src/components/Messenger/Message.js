@@ -14,7 +14,7 @@ class Message extends Component {
     const messageTime = this.props.message.date.getTime()
     const timeDiff = currentTime - messageTime
 
-    if (timeDiff > 60000) {
+    if (timeDiff > 5000) {
       return this.resetState()
     }
 
@@ -53,7 +53,7 @@ class Message extends Component {
     this.props.updateLastUser(this.props.message.user.username)
     setTimeout(() => {
       this.resetState()
-    }, 60000)
+    }, 5000)
   }
 
   resetState = () => {
@@ -83,6 +83,7 @@ class Message extends Component {
 
         <User
           lastUser={this.checkLastUser(user.username, this.props.lastUser)}
+          show={this.props.index < 1}
           username={user.username}
           avatar={user.avatar}
           date={message.date}

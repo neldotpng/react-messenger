@@ -5,10 +5,11 @@ import '../css/Messages.css'
 class Messages extends Component {
   render() {
     const messages = this.props.messages
-    const renderedMessages = messages.map(message => {
+    const renderedMessages = messages.map((message, index) => {
       return (
         <Message
           key={message.id}
+          index={index}
           message={message}
           saveMessage={this.props.editMessage}
           lastUser={this.props.lastUser}
