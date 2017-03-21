@@ -16,7 +16,7 @@ class User extends Component {
               />
             </div>
             <div>
-              {this.props.username} <span className="Message-date">{this.props.date.toTimeString().substr(0,8)}</span>
+              {this.props.username} <span className="Message-date">{JSON.stringify(this.props.date)}</span>
             </div>
           </div>
         }

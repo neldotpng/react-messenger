@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import messagesReducer from './messagesReducer'
 
 const chat = (state = ['hello'], action) => {
   switch(action.type) {
@@ -11,6 +12,7 @@ const chat = (state = ['hello'], action) => {
 
 const chatApp = combineReducers({
   chat,
+  messages: messagesReducer,
 })
 
 export default chatApp

@@ -1,12 +1,24 @@
 import React, { Component } from 'react'
 import ChatInput from './ChatInput'
 import Messages from './Messages'
+import { connect } from 'react-redux'
+import { getMessages } from '../../services/messagesService'
 
 class Messenger extends Component {
   state = {
-    messages: [],
+    messages: this.props.messages,
     inputValue: '',
     lastUser: '',
+  }
+
+  componentDidMount() {
+    this.props.fetchMessages()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      messages: nextProps.messages,
+    })
   }
 
   handleChange(val) {
@@ -68,4 +80,16 @@ class Messenger extends Component {
   }
 }
 
-export default Messenger
+const mapStateToProps = ({ messages: { messages }}) => {
+  return {
+    messages,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchMessages: () => dispatch(getMessages())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Messenger)

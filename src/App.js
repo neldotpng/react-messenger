@@ -6,15 +6,9 @@ import addChat from './actions'
 
 class App extends Component {
   render() {
-    console.log(this.props)
-    console.log(addChat)
     return (
       <div className="App">
-        <button
-          onClick={this.props.addChat}
-        >Add Chat</button>
-        { JSON.stringify(this.props.chat) }
-        {/*<Messenger />*/}
+        <Messenger />
       </div>
     );
   }
