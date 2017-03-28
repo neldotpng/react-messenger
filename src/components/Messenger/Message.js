@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import User from './User'
+import moment from 'moment'
+import { connect } from 'react-redux'
+import { updateMessage } from '../../services/messagesService'
 import '../css/Message.css'
 
 class Message extends Component {
@@ -10,8 +13,9 @@ class Message extends Component {
   }
 
   toggleEditButton = () => {
-    const currentTime = new Date().getTime()
-    const messageTime = this.props.message.date.getTime()
+    const currentTime = moment(new Date().getTime()).unix()
+    const messageTime = moment(this.props.message.date).unix()
+    console.log(messageTime)
     const timeDiff = currentTime - messageTime
 
     if (timeDiff > 5000) {
@@ -38,7 +42,7 @@ class Message extends Component {
       ...this.props.message,
       text: this.state.newMessage,
     }
-    this.props.saveMessage(newMessage)
+    this.props.updateMessage(newMessage)
   }
 
   updateNewMessage = (e) => {
@@ -123,4 +127,10 @@ class Message extends Component {
   }
 }
 
-export default Message
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateMessage: (id, text) => dispatch(updateMessage(id, text))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Message)
